@@ -1,0 +1,142 @@
+/* FluentCart Custom Meta Fields — front-end shortcode and Elementor widget styles */
+
+.cmf-field,
+.cmf-repeater {
+    box-sizing: border-box;
+}
+
+/* Shown only inside the Elementor editor when a widget has nothing to render */
+
+.cmf-editor-notice {
+    padding: 0.75rem 1rem;
+    border: 1px dashed #c3c4c7;
+    border-radius: 4px;
+    background: #f6f7f7;
+    color: #50575e;
+    font-size: 0.85em;
+    line-height: 1.5;
+}
+
+.cmf-field--empty {
+    opacity: 0.7;
+}
+
+.cmf-media-wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.cmf-media-link {
+    display: inline-block;
+    max-width: 100%;
+}
+
+.cmf-field--media img,
+.cmf-cell--media img,
+.cmf-field--media video,
+.cmf-cell--media video {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.cmf-media--audio {
+    width: 100%;
+}
+
+.cmf-link {
+    word-break: break-all;
+}
+
+.cmf-color {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+}
+
+.cmf-color-swatch {
+    width: 1em;
+    height: 1em;
+    border-radius: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    background: currentColor;
+}
+
+/* Repeater: shared */
+
+.cmf-repeater {
+    display: flex;
+    gap: 1rem;
+}
+
+.cmf-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+.cmf-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+}
+
+.cmf-cell-label {
+    font-size: 0.85em;
+    opacity: 0.7;
+}
+
+/* list: stacked rows */
+
+.cmf-repeater--list {
+    flex-direction: column;
+}
+
+/* grid: CSS grid, N columns (1–6) */
+
+.cmf-repeater--grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cmf-repeater--grid.cmf-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.cmf-repeater--grid.cmf-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cmf-repeater--grid.cmf-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cmf-repeater--grid.cmf-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.cmf-repeater--grid.cmf-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.cmf-repeater--grid.cmf-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+
+@media (max-width: 782px) {
+    .cmf-repeater--grid.cmf-cols-3,
+    .cmf-repeater--grid.cmf-cols-4,
+    .cmf-repeater--grid.cmf-cols-5,
+    .cmf-repeater--grid.cmf-cols-6 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .cmf-repeater--grid {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+}
+
+/* row: one horizontal strip, sideways scroll with snap */
+
+.cmf-repeater--row {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+}
+
+.cmf-repeater--row > .cmf-row {
+    flex: 0 0 auto;
+    width: min(20rem, 80%);
+    scroll-snap-align: start;
+}

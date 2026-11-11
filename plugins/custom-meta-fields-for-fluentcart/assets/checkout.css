@@ -1,0 +1,175 @@
+/* Checkout fields inside FluentCart's checkout form. Inputs inherit
+   FluentCart's own .fct_checkout input styling; these rules only handle
+   layout, labels above inputs, and standalone (non-grouped) borders. */
+
+.cmf-checkout-section {
+    margin: 16px 0;
+}
+
+.cmf-checkout-group {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.cmf-checkout-field {
+    min-width: 0;
+}
+
+.fct_checkout .cmf-checkout-field .fct_input_label {
+    display: block;
+    margin: 0 0 6px;
+    cursor: default;
+}
+
+.fct_checkout .cmf-checkout-field .fct_input_label_checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.fct_checkout .cmf-checkout-field .fct-input:not([type="checkbox"]) {
+    border-width: 1px;
+    border-radius: 8px;
+}
+
+.fct_checkout .cmf-checkout-field textarea.fct-input {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.cmf-required-mark {
+    color: #f04438;
+    margin-left: 2px;
+}
+
+.cmf-description {
+    margin: 6px 0 0;
+    font-size: 13px;
+    line-height: 1.4;
+    opacity: 0.75;
+}
+
+.cmf-hidden {
+    display: none !important;
+}
+
+/* File upload */
+
+.fct_checkout .cmf-file .fct-input-file {
+    min-height: 0;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.cmf-file .fct-input-file[hidden] {
+    display: none;
+}
+
+.cmf-file-status:empty {
+    display: none;
+}
+
+.cmf-file-status {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 10px;
+    border: 1px solid currentColor;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.cmf-file.has-file .cmf-file-status {
+    border-color: #12b76a;
+}
+
+.cmf-file-size {
+    opacity: 0.7;
+}
+
+.cmf-file-progress {
+    opacity: 0.8;
+}
+
+.fct_checkout .cmf-file-remove {
+    margin-left: auto;
+    padding: 2px 8px;
+    min-height: 0;
+    font-size: 13px;
+    background: none;
+    border: 1px solid currentColor;
+    border-radius: 6px;
+    color: inherit;
+    cursor: pointer;
+}
+
+.cmf-file-hint {
+    margin: 4px 0 0;
+    font-size: 12px;
+    opacity: 0.65;
+}
+
+.cmf-field-error.show_error {
+    display: block;
+}
+
+/* Thank-you page */
+
+/* Sized like FluentCart's own receipt text, not the theme's body text. */
+.cmf-receipt {
+    margin: 20px 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.cmf-receipt-heading {
+    margin: 0 0 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.cmf-receipt-list {
+    display: grid;
+    grid-template-columns: minmax(120px, max-content) 1fr;
+    gap: 6px 16px;
+    margin: 0;
+    font-size: 14px;
+}
+
+.cmf-receipt-list dt {
+    font-weight: 500;
+}
+
+.cmf-receipt-list dd {
+    margin: 0;
+    word-break: break-word;
+}
+
+.cmf-receipt-preview {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.cmf-receipt-preview img {
+    display: block;
+    max-width: 240px;
+    max-height: 240px;
+    width: auto;
+    height: auto;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+    .cmf-receipt-list {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+    .cmf-receipt-list dd {
+        margin-bottom: 8px;
+    }
+}
