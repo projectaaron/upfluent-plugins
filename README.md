@@ -8,4 +8,5 @@ This repository is updated automatically on every release. Issues and pull reque
 
 | Plugin | Version | What it does |
 |---|---|---|
+| [Recent Posts SmartCodes for FluentCRM](plugins/recent-posts-smartcodes-for-fluentcrm/) | 2.0.0 | Insert your latest WordPress blog posts into FluentCRM emails, filtered by category, with one SmartCode. |
 | [Shopify to FluentCart Migrator](plugins/shopify-to-fluentcart-migrator/) | 1.0.0 | Move your Shopify products into FluentCart: export the CSV, upload it, review the list, publish. Free. |
