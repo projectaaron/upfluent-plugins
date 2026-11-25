@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Custom Meta Fields for FluentCart
  * Description: Unlimited custom product and checkout fields for FluentCart, shown with shortcodes and Elementor widgets and emitted as Product JSON-LD, plus GTIN and MPN per variation and a brand per product.
- * Version: 1.1.1
+ * Version: 1.1.2
  * Author: upfluent.io
  * Author URI: https://upfluent.io/fluentcart-custom-meta-fields/
  * Requires at least: 5.9
@@ -48,7 +48,7 @@ if (defined('UPFLUENT_CMF_FILE')) {
     return;
 }
 
-define('UPFLUENT_CMF_VERSION', '1.1.1');
+define('UPFLUENT_CMF_VERSION', '1.1.2');
 define('UPFLUENT_CMF_FILE', __FILE__);
 define('UPFLUENT_CMF_DIR', plugin_dir_path(__FILE__));
 define('UPFLUENT_CMF_URL', plugin_dir_url(__FILE__));

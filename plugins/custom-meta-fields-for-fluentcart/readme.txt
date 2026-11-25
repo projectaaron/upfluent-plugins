@@ -2,9 +2,9 @@
 Contributors: projectaaron
 Tags: fluentcart, fluent cart, custom fields, gtin, structured data
 Requires at least: 5.9
-Tested up to: 7.1
+Tested up to: 7.2
 Requires PHP: 7.4
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,6 +93,10 @@ Everything that was in Pro is now in this free plugin, and both use the same dat
 4. Custom field values and the selected variation's GTIN on a FluentCart product page, through shortcodes.
 
 == Changelog ==
+
+= 1.1.2 =
+* Tested with WordPress 7.2 and FluentCart 2.3.3.
+* WordPress Abilities: "List fields" works when called with no input (WordPress 7.2 validates ability input), and the read-only abilities now tell WordPress they are read-only, so they can run over a plain REST GET request.
 
 = 1.1.1 =
 * Tested with FluentCart 1.7.1 and 1.8.0.

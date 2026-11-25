@@ -65,9 +65,14 @@ class Abilities
                     'meta'                => [
                         'show_in_rest' => true,
                         'mcp'          => ['public' => true],
-                        // The WP MCP adapter forwards these verbatim, so use
-                        // the MCP spec's hint names.
+                        // Core reads readonly/destructive/idempotent (a readonly
+                        // ability may run over REST GET); the WP MCP adapter
+                        // forwards annotations verbatim, so also send the MCP
+                        // spec's hint names.
                         'annotations'  => [
+                            'readonly'        => (bool) ($def['annotations']['readonly'] ?? false),
+                            'destructive'     => (bool) ($def['annotations']['destructive'] ?? false),
+                            'idempotent'      => (bool) ($def['annotations']['idempotent'] ?? false),
                             'readOnlyHint'    => (bool) ($def['annotations']['readonly'] ?? false),
                             'destructiveHint' => (bool) ($def['annotations']['destructive'] ?? false),
                             'idempotentHint'  => (bool) ($def['annotations']['idempotent'] ?? false),
@@ -107,7 +112,8 @@ class Abilities
             $ns . 'list-fields' => [
                 'label'               => __('List Custom Fields', 'custom-meta-fields-for-fluentcart'),
                 'description'         => __('List every custom field definition in display order. Call this before creating a field to avoid duplicate ids.', 'custom-meta-fields-for-fluentcart'),
-                'input_schema'        => ['type' => 'object', 'properties' => new \stdClass()],
+                // Callers may send no input at all; WordPress 7.2 validates it against this schema.
+                'input_schema'        => ['type' => 'object', 'properties' => new \stdClass(), 'default' => []],
                 'output_schema'       => ['type' => 'object', 'properties' => ['fields' => ['type' => 'array', 'items' => $fieldSchema]]],
                 'execute_callback'    => [self::class, 'listFields'],
                 'permission_callback' => $view,

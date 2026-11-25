@@ -8,7 +8,7 @@ Every plugin is free, with all its features. Each one lives in its own folder un
 
 | Plugin | Version | What it does |
 |---|---|---|
-| [Custom Meta Fields for FluentCart](#custom-meta-fields-for-fluentcart) | 1.1.1 | Custom fields for FluentCart (Fluent Cart) products, shown anywhere with a shortcode, plus GTIN and MPN per variation and a brand for Google. |
+| [Custom Meta Fields for FluentCart](#custom-meta-fields-for-fluentcart) | 1.1.2 | Custom fields for FluentCart (Fluent Cart) products, shown anywhere with a shortcode, plus GTIN and MPN per variation and a brand for Google. |
 | [Recent Posts SmartCodes for FluentCRM](#recent-posts-smartcodes-for-fluentcrm) | 2.0.0 | Insert your latest WordPress blog posts into FluentCRM emails, filtered by category, with one SmartCode. |
 | [Shopify to FluentCart Migrator](#shopify-to-fluentcart-migrator) | 1.0.0 | Move your Shopify products into FluentCart: export the CSV, upload it, review the list, publish. Free. |
 
@@ -18,9 +18,9 @@ Custom Meta Fields for FluentCart adds custom product fields to FluentCart (also
 
 | | |
 |---|---|
-| Version | 1.1.1 |
+| Version | 1.1.2 |
 | Requires | FluentCart (active) |
-| WordPress | 5.9 or later (tested up to 7.1) |
+| WordPress | 5.9 or later (tested up to 7.2) |
 | PHP | 7.4 or later |
 | License | GPLv2 or later |
 
@@ -30,10 +30,10 @@ Custom Meta Fields for FluentCart adds custom product fields to FluentCart (also
 - Changelog and FAQ: [plugins/custom-meta-fields-for-fluentcart/readme.txt](plugins/custom-meta-fields-for-fluentcart/readme.txt)
 - Source: [plugins/custom-meta-fields-for-fluentcart/](plugins/custom-meta-fields-for-fluentcart/)
 
-What's new in 1.1.1:
+What's new in 1.1.2:
 
-* Tested with FluentCart 1.7.1 and 1.8.0.
-* Product structured data keeps the brand you assign in FluentCart's Brands when no brand is set in the Custom Meta Fields card (FluentCart 1.7.1+ adds brand itself; it was being replaced by the store name).
+* Tested with WordPress 7.2 and FluentCart 2.3.3.
+* WordPress Abilities: "List fields" works when called with no input (WordPress 7.2 validates ability input), and the read-only abilities now tell WordPress they are read-only, so they can run over a plain REST GET request.
 
 ### Recent Posts SmartCodes for FluentCRM
 
