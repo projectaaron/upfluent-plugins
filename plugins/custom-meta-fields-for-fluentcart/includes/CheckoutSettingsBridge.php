@@ -142,7 +142,7 @@ class CheckoutSettingsBridge
         }
         $parts[] = sprintf(
             /* translators: %s: link text */
-            __('Edit it under More → Custom Fields → Checkout Fields (%s).', 'custom-meta-fields-for-fluentcart'),
+            __('Edit it under FluentCart → Custom Fields → Checkout Fields (%s).', 'custom-meta-fields-for-fluentcart'),
             $def['field_id']
         );
         return implode(' ', $parts);

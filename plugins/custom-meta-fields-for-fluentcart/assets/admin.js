@@ -221,18 +221,13 @@
         const container = document.getElementById('fct-custom-meta-app');
         if (!container) return;
 
-        // Inside the FluentHub portal the shell provides navigation; the
-        // "Back to FluentCart" link only makes sense on the bare WP page.
-        const inHub = !!cfg.inHub || !!document.querySelector('.fluent_uui');
-        const backLink = inHub
-            ? ''
-            : `<a class="fct-cm-btn fct-cm-btn--ghost" href="${esc(cfg.adminUrl || '')}admin.php?page=fluent-cart#/">&larr; ${esc(t('backToFluentCart', 'Back to FluentCart'))}</a>`;
+        const backLink = `<a class="fct-cm-btn fct-cm-btn--ghost" href="${esc(cfg.adminUrl || '')}admin.php?page=fluent-cart#/">&larr; ${esc(t('backToFluentCart', 'Back to FluentCart'))}</a>`;
 
         // admin-pro.js adds the checkout field builder.
         const hasCheckout = !!(PRO && PRO.contexts && PRO.contexts.checkout);
 
         container.innerHTML = `
-            <div class="fct-cm-app${inHub ? ' fct-cm-app--hub' : ''}">
+            <div class="fct-cm-app">
                 <header class="fct-cm-header">
                     <div class="fct-cm-header-main">
                         <h1 class="fct-cm-title">Custom Fields</h1>

@@ -47,7 +47,7 @@ class ReviewNotice
             return wp_nonce_url(admin_url('admin-post.php?action=' . self::ACTION . '&go=' . $go), self::ACTION);
         };
 
-        return '<div class="fct-cm-app fct-cm-app--notice' . (FluentHub::isPortalRequest() ? ' fct-cm-app--hub' : '') . '"><section class="fct-cm-card fct-cm-card--note">'
+        return '<div class="fct-cm-app fct-cm-app--notice"><section class="fct-cm-card fct-cm-card--note">'
             . '<p class="fct-cm-card-title">' . esc_html__('Enjoying Custom Meta Fields?', 'custom-meta-fields-for-fluentcart') . '</p>'
             . '<p>' . esc_html__('A short review on WordPress.org helps other FluentCart stores find it. It takes a minute.', 'custom-meta-fields-for-fluentcart') . '</p>'
             . '<p class="fct-cm-card-actions"><a class="fct-cm-btn fct-cm-btn--primary" href="' . esc_url($url('review')) . '" target="_blank" rel="noopener">' . esc_html__('Leave a review', 'custom-meta-fields-for-fluentcart') . '</a> '

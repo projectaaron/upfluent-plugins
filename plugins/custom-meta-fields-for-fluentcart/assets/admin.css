@@ -125,8 +125,8 @@ html.dark .fct-cmf-pro-field {
 }
 
 /* On the bare WordPress page, line up with the WP content gutter. */
-#fct-custom-meta-app > .fct-cm-app:not(.fct-cm-app--hub),
-.fct-cm-app--notice:not(.fct-cm-app--hub) {
+#fct-custom-meta-app > .fct-cm-app,
+.fct-cm-app--notice {
     padding-left: 0;
 }
 

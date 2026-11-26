@@ -5,15 +5,9 @@ namespace UpfluentCmf;
 defined('ABSPATH') || exit;
 
 /**
- * The settings screen and the two ways of reaching it.
- *
- * FluentCart's admin chrome is its own sidebar, rendered server side from
- * AdminHelper::getMenuItems(); a WordPress submenu alone is not visible from
- * inside the app. So the page is registered both ways:
- *
- *   fluent_cart/global_admin_menu_more_items  adds "Custom Fields" to the More
- *                                             group, beside other add-ons
- *   add_submenu_page()                        keeps it in the WordPress sidebar
+ * The settings screen. It is reached only from the FluentCart submenu in the
+ * WordPress sidebar (owner, 26 Nov 2026): no entry in FluentCart's own More
+ * menu and no FluentHub app.
  *
  * The page itself is a plain WordPress screen with a link back into FluentCart.
  * See render() for why FluentCart's own menu is not reproduced on it.
@@ -21,14 +15,12 @@ defined('ABSPATH') || exit;
 class AdminMenu
 {
     const PAGE_SLUG = 'fct-custom-meta';
-    const MENU_KEY  = 'fct_custom_fields';
 
     /** FluentCart's submenu keys in its own order, captured before anything is added. */
     private $fluentCartOrder = [];
 
     public function register(): void
     {
-        add_filter('fluent_cart/global_admin_menu_more_items', [$this, 'addMenuItem'], 10, 2);
         add_action('admin_menu', [$this, 'addSubmenuPage'], 99);
         add_action('admin_menu', [$this, 'restoreSubmenuOrder'], PHP_INT_MAX);
     }
@@ -38,31 +30,7 @@ class AdminMenu
         return admin_url('admin.php?page=' . self::PAGE_SLUG);
     }
 
-    /**
-     * Adds the entry to FluentCart's own sidebar, under More.
-     *
-     * Item shape matches AdminHelper::getMenuItems(): label, link, and an
-     * optional permission array checked with PermissionManager::hasPermission().
-     *
-     * @param array $items
-     * @param array $args  ['base_url' => string]
-     */
-    public function addMenuItem($items, $args = [])
-    {
-        if (!is_array($items)) {
-            return $items;
-        }
-
-        $items[self::MENU_KEY] = [
-            'label'      => __('Custom Fields', 'custom-meta-fields-for-fluentcart'),
-            'link'       => self::url(),
-            'permission' => ['store/settings'],
-        ];
-
-        return $items;
-    }
-
-    /** Keeps the page in the WordPress sidebar under FluentCart as well. */
+    /** The page, under FluentCart in the WordPress sidebar. */
     public function addSubmenuPage(): void
     {
         global $submenu;
@@ -115,8 +83,6 @@ class AdminMenu
      */
     public function render(): void
     {
-        // A card rather than wp_die(): inside the FluentHub shell, dying here
-        // would leave the portal's wrapper unclosed.
         if (!Permissions::canManageDefinitions()) {
             echo '<div class="fct-cm-app"><section class="fct-cm-card fct-cm-card--note"><p>'
                 . esc_html__('You do not have permission to manage custom fields.', 'custom-meta-fields-for-fluentcart')
@@ -126,7 +92,7 @@ class AdminMenu
 
         echo ReviewNotice::html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in ReviewNotice::html()
         echo '<div id="fct-custom-meta-app"></div>';
-        echo '<div class="fct-cm-app fct-cm-app--legal' . (FluentHub::isPortalRequest() ? ' fct-cm-app--hub' : '') . '"><p class="fct-cm-legal">'
+        echo '<div class="fct-cm-app fct-cm-app--legal"><p class="fct-cm-legal">'
             . esc_html__('Custom Meta Fields for FluentCart is free and open source software, licensed under the GPL v2 or later. It is provided as is, without warranty of any kind.', 'custom-meta-fields-for-fluentcart')
             . '</p></div>';
     }

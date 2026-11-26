@@ -4,7 +4,7 @@ Tags: fluentcart, fluent cart, custom fields, gtin, structured data
 Requires at least: 5.9
 Tested up to: 7.2
 Requires PHP: 7.4
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,7 +30,7 @@ Values are stored as real WordPress post meta and registered with `register_post
 * **Shortcodes:** `[upfluent_cmf_field key="FIELD_ID"]` prints a field anywhere, with the shortcode shown and copyable next to each field.
 * **Product structured data:** Product, BreadcrumbList and Organization JSON-LD built live from FluentCart prices, stock, images, store address, return policy and shipping rates.
 * **GTIN, EAN, UPC, ISBN and MPN per variation:** FluentCart has a SKU per variation but no GTIN. Add one to every variation, plus a brand per product, with check-digit validation and duplicate detection. They go into Google structured data (as a ProductGroup with one variant per variation), and `[upfluent_cmf_gtin]` shows the selected variation's code.
-* **Fluent look:** the settings screen matches the Fluent suite, supports dark mode and loads inside the FluentHub portal.
+* **Fluent look:** the settings screen matches the Fluent suite and supports dark mode.
 * **REST API and WordPress Abilities (MCP):** let AI agents and integrations manage your fields.
 * **Permissions:** follows FluentCart's own roles for who can define fields and edit values.
 * **Media fields:** images, video, audio or files from the media library, rendered responsively.
@@ -44,13 +44,13 @@ Values are stored as real WordPress post meta and registered with `register_post
 
 1. Install and activate FluentCart.
 2. In Plugins → Add New, search for "Custom Meta Fields for FluentCart", then install and activate it.
-3. Go to FluentCart → More → Custom Fields (or Custom Fields in the FluentHub portal).
+3. Go to FluentCart → Custom Fields in the WordPress admin menu.
 4. Add a field, then open any product to fill it in.
 
 == Frequently Asked Questions ==
 
 = How do I add custom fields to FluentCart products? =
-Install this plugin, go to FluentCart → More → Custom Fields, and add a field with a title, a field ID and a type (text, textarea, number, select, checkbox, URL, email, date, color, media or repeater). The field then appears in a Custom Meta Fields card in the sidebar of every FluentCart product, saved with FluentCart's Update button.
+Install this plugin, go to FluentCart → Custom Fields, and add a field with a title, a field ID and a type (text, textarea, number, select, checkbox, URL, email, date, color, media or repeater). The field then appears in a Custom Meta Fields card in the sidebar of every FluentCart product, saved with FluentCart's Update button.
 
 = How do I show a custom field on a FluentCart product page? =
 Use the shortcode `[upfluent_cmf_field key="FIELD_ID"]` in the product description, a page or a widget. Each field shows its ready-to-copy shortcode on the Custom Fields screen. Outside a product, add `product_id="123"`.
@@ -93,6 +93,9 @@ Everything that was in Pro is now in this free plugin, and both use the same dat
 4. Custom field values and the selected variation's GTIN on a FluentCart product page, through shortcodes.
 
 == Changelog ==
+
+= 1.1.3 =
+* The Custom Fields settings page now has one menu entry: FluentCart → Custom Fields in the WordPress admin menu. It no longer appears in FluentCart's More menu or as a separate app in the FluentHub portal.
 
 = 1.1.2 =
 * Tested with WordPress 7.2 and FluentCart 2.3.3.

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Custom Meta Fields for FluentCart
  * Description: Unlimited custom product and checkout fields for FluentCart, shown with shortcodes and Elementor widgets and emitted as Product JSON-LD, plus GTIN and MPN per variation and a brand per product.
- * Version: 1.1.2
+ * Version:           1.1.3
  * Author: upfluent.io
  * Author URI: https://upfluent.io/fluentcart-custom-meta-fields/
  * Requires at least: 5.9
@@ -48,7 +48,7 @@ if (defined('UPFLUENT_CMF_FILE')) {
     return;
 }
 
-define('UPFLUENT_CMF_VERSION', '1.1.2');
+define('UPFLUENT_CMF_VERSION', '1.1.3');
 define('UPFLUENT_CMF_FILE', __FILE__);
 define('UPFLUENT_CMF_DIR', plugin_dir_path(__FILE__));
 define('UPFLUENT_CMF_URL', plugin_dir_url(__FILE__));
@@ -66,7 +66,6 @@ require_once UPFLUENT_CMF_DIR . 'includes/ProductIdentifiers.php';
 require_once UPFLUENT_CMF_DIR . 'includes/CoreFeatureWatch.php';
 require_once UPFLUENT_CMF_DIR . 'includes/ReviewNotice.php';
 require_once UPFLUENT_CMF_DIR . 'includes/Shortcodes.php';
-require_once UPFLUENT_CMF_DIR . 'includes/FluentHub.php';
 require_once UPFLUENT_CMF_DIR . 'includes/ProductSchema.php';
 require_once UPFLUENT_CMF_DIR . 'includes/Abilities.php';
 require_once UPFLUENT_CMF_DIR . 'includes/MediaHelper.php';
@@ -109,15 +108,6 @@ add_filter('plugin_row_meta', function ($links, $file) {
     }
     return $links;
 }, 10, 2);
-
-/**
- * FluentHub portal registration. Hooked straight from plugins_loaded, not
- * from fluentcart_loaded: FluentHub applies its apps filter at init (10) and
- * silently skips anything registered later.
- */
-add_action('plugins_loaded', function () {
-    (new \UpfluentCmf\FluentHub())->register();
-}, 5);
 
 /**
  * Everything below needs FluentCart. fluentcart_loaded fires on plugins_loaded
@@ -217,7 +207,6 @@ add_action('admin_enqueue_scripts', function () {
         'nonce'       => wp_create_nonce('wp_rest'),
         'adminUrl'    => admin_url(),
         'context'     => $is_plugin_page ? 'settings' : 'fluentcart',
-        'inHub'       => $is_plugin_page && \UpfluentCmf\FluentHub::unifiedUiEnabled(),
         'isAdmin'     => current_user_can('manage_options'),
         'canEdit'     => \UpfluentCmf\Permissions::canEditProduct(),
         'editorWidget' => \UpfluentCmf\EditorWidget::available(),
