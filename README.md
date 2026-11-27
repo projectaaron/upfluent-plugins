@@ -9,6 +9,7 @@ Every plugin is free, with all its features. Each one lives in its own folder un
 | Plugin | Version | What it does |
 |---|---|---|
 | [Custom Meta Fields for FluentCart](#custom-meta-fields-for-fluentcart) | 1.1.3 | Custom fields for FluentCart (Fluent Cart) products, shown anywhere with a shortcode, plus GTIN and MPN per variation and a brand for Google. |
+| [Order Sync for ShipFusion and FluentCart](#order-sync-for-shipfusion-and-fluentcart) | 1.0.0 | Send paid FluentCart orders to your ShipFusion warehouse and get tracking and stock back automatically. |
 | [Recent Posts SmartCodes for FluentCRM](#recent-posts-smartcodes-for-fluentcrm) | 2.0.0 | Insert your latest WordPress blog posts into FluentCRM emails, filtered by category, with one SmartCode. |
 | [Shopify to FluentCart Migrator](#shopify-to-fluentcart-migrator) | 1.0.0 | Move your Shopify products into FluentCart: export the CSV, upload it, review the list, publish. Free. |
 
@@ -33,6 +34,30 @@ Custom Meta Fields for FluentCart adds custom product fields to FluentCart (also
 What's new in 1.1.3:
 
 * The Custom Fields settings page now has one menu entry: FluentCart → Custom Fields in the WordPress admin menu. It no longer appears in FluentCart's More menu or as a separate app in the FluentHub portal.
+
+### Order Sync for ShipFusion and FluentCart
+
+Order Sync for ShipFusion and FluentCart connects your FluentCart store to your ShipFusion fulfillment warehouse. Paid orders go to the warehouse on their own. When the warehouse ships, the tracking number appears on the order as a FluentCart shipment, and the customer gets FluentCart's shipment email with the tracking link. Stock levels from the warehouse are copied into your products.
+
+| | |
+|---|---|
+| Version | 1.0.0 |
+| Requires | FluentCart (active) |
+| WordPress | 6.7 or later (tested up to 7.1) |
+| PHP | 7.4 or later |
+| License | GPLv2 or later |
+
+- Download: [Releases](../../releases?q=order-sync-for-shipfusion-and-fluentcart&expanded=true) (zip `order-sync-for-shipfusion-and-fluentcart.zip`)
+- Documentation: [plugins/order-sync-for-shipfusion-and-fluentcart/README.md](plugins/order-sync-for-shipfusion-and-fluentcart/README.md)
+- Changelog and FAQ: [plugins/order-sync-for-shipfusion-and-fluentcart/readme.txt](plugins/order-sync-for-shipfusion-and-fluentcart/readme.txt)
+- Source: [plugins/order-sync-for-shipfusion-and-fluentcart/](plugins/order-sync-for-shipfusion-and-fluentcart/)
+
+What's new in 1.0.0:
+
+* First release on WordPress.org. Replaces the private "FluentCart ShipFusion" plugin.
+* Tracking is recorded as FluentCart shipments, so customers see it in FluentCart's shipment email and their account.
+* Refunded items are no longer shipped, address changes reach the warehouse, and test-mode orders are never sent.
+* A new ShipFusion screen shows what needs your attention, with Retry and email alerts.
 
 ### Recent Posts SmartCodes for FluentCRM
 

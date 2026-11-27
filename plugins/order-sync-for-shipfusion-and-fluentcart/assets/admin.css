@@ -1,0 +1,564 @@
+/* ─────────────────────────────────────────────────────────────────────
+   Order Sync for ShipFusion and FluentCart admin: styled on FluentHub's
+   --fui-* tokens, falling back to FluentCart's --fc-* tokens, then fixed
+   values, so the screen looks like the Fluent suite and like Custom Meta
+   Fields. Dark mode follows FluentCart's fluent_theme_dark class. See
+   branding/colors.md.
+
+   Contrast: body and help text use --upf-text / --upf-text-soft (AA in
+   both modes); --upf-text-muted is never used for text. Badges and result
+   lines have their own light and dark pairs, all ≥ 4.5:1. Focus rings and
+   input / switch outlines are ≥ 3:1 against the card.
+   ───────────────────────────────────────────────────────────────────── */
+
+.upfluent-sf-app {
+    --upf-bg:            var(--fui-bg, var(--fc-secondary-bg, #f5f7fa));
+    --upf-surface:       var(--fui-surface, var(--fc-primary-bg, #ffffff));
+    --upf-surface-hover: var(--fui-surface-hover, #f6f5f4);
+    --upf-border:        var(--fui-border, var(--fc-primary-border, #e1e4ea));
+    --upf-text:          var(--fui-text, var(--fc-primary-text, #0e121b));
+    --upf-text-soft:     var(--fui-text-soft, var(--fc-secondary-text, #525866));
+    --upf-text-inverse:  #ffffff;
+    --upf-accent:        var(--fui-accent, #635bff);
+    --upf-accent-soft:   rgba(99, 91, 255, 0.10);
+    --upf-btn:           #635bff;   /* white text on it: 4.7:1 */
+    --upf-btn-hover:     #4f46e5;
+    --upf-link:          #4f46e5;
+    --upf-focus:         #635bff;
+    --upf-input-bg:      var(--upf-surface);
+    --upf-input-border:  #8a94a6;   /* 3:1 on white */
+    --upf-head-bg:       rgba(14, 18, 27, 0.025);
+    --upf-code-bg:       rgba(14, 18, 27, 0.05);
+    --upf-switch-off:    #6b7280;
+    --upf-shadow:        var(--fui-shadow, 0 0 0 1px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(15, 15, 15, 0.04));
+    --upf-select-arrow:  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M6 8l4 4 4-4' stroke='%23525866' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    --upf-radius:        12px;
+    --upf-radius-sm:     8px;
+
+    /* Status pairs (text on background) */
+    --upf-ok-text:    #166534;  --upf-ok-bg:    #dcfce7;
+    --upf-warn-text:  #92400e;  --upf-warn-bg:  #fef3c7;
+    --upf-err-text:   #991b1b;  --upf-err-bg:   #fee2e2;
+    --upf-info-text:  #3730a3;  --upf-info-bg:  #e0e7ff;
+    --upf-mute-text:  #374151;  --upf-mute-bg:  #eef0f3;
+    --upf-ok-line:    #15803d;  /* result text on the card: 5:1 */
+    --upf-err-line:   #b91c1c;  /* 6.5:1 */
+    --upf-err-border: #ef4444;
+
+    box-sizing: border-box;
+    max-width: 960px;
+    margin: 20px 20px 40px 0;
+    color: var(--upf-text);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.upfluent-sf-app *,
+.upfluent-sf-app *::before,
+.upfluent-sf-app *::after {
+    box-sizing: border-box;
+}
+
+/* Dark mode: FluentCart's theme class (fluent_theme_dark), on <body> from its
+   toggle, on <html> from its early head script. The app paints its own
+   background so the heading stays readable on WordPress's light page. */
+body.fluent_theme_dark .upfluent-sf-app,
+html.fluent_theme_dark .upfluent-sf-app {
+    --upf-bg:            #11171d;
+    --upf-surface:       #1a222c;
+    --upf-surface-hover: #222c38;
+    --upf-border:        rgba(255, 255, 255, 0.09);
+    --upf-text:          #f0f3f7;
+    --upf-text-soft:     #c3c9d3;
+    --upf-accent:        #8f89ff;
+    --upf-accent-soft:   rgba(123, 116, 255, 0.24);
+    --upf-btn:           #635bff;
+    --upf-btn-hover:     #7169ff;
+    --upf-link:          #a5a0ff;
+    --upf-focus:         #a5a0ff;
+    --upf-input-bg:      #0f151b;
+    --upf-input-border:  rgba(255, 255, 255, 0.4);
+    --upf-head-bg:       rgba(255, 255, 255, 0.03);
+    --upf-code-bg:       rgba(255, 255, 255, 0.08);
+    --upf-switch-off:    #9aa3b2;
+    --upf-shadow:        0 0 0 1px rgba(255, 255, 255, 0.04), 0 4px 16px rgba(0, 0, 0, 0.35);
+    --upf-select-arrow:  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M6 8l4 4 4-4' stroke='%23c3c9d3' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+    --upf-ok-text:    #86efac;  --upf-ok-bg:    rgba(34, 197, 94, 0.16);
+    --upf-warn-text:  #fcd34d;  --upf-warn-bg:  rgba(245, 158, 11, 0.16);
+    --upf-err-text:   #fca5a5;  --upf-err-bg:   rgba(239, 68, 68, 0.18);
+    --upf-info-text:  #c7d2fe;  --upf-info-bg:  rgba(99, 102, 241, 0.22);
+    --upf-mute-text:  #d1d5db;  --upf-mute-bg:  rgba(255, 255, 255, 0.08);
+    --upf-ok-line:    #4ade80;
+    --upf-err-line:   #f87171;
+    --upf-err-border: #f87171;
+
+    color-scheme: dark;
+    background: var(--upf-bg);
+    padding: 16px;
+    border-radius: var(--upf-radius);
+}
+
+/* ─── Basics ─── */
+
+.upfluent-sf-app p { margin: 0; }
+.upfluent-sf-app [hidden] { display: none !important; }
+
+.upfluent-sf-app a { color: var(--upf-link); text-decoration: underline; text-underline-offset: 2px; }
+.upfluent-sf-app a:hover { text-decoration-thickness: 2px; }
+
+.upfluent-sf-app .upf-sr-only {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Visible focus for everything we render (2px ring, ≥ 3:1). The id selector
+   outranks WordPress' .wp-core-ui .button:focus. */
+#upfluent-sf-app a:focus-visible,
+#upfluent-sf-app button:focus-visible,
+#upfluent-sf-app .button:focus-visible,
+#upfluent-sf-app input:focus-visible,
+#upfluent-sf-app select:focus-visible,
+#upfluent-sf-app textarea:focus-visible,
+#upfluent-sf-app summary:focus-visible,
+#upfluent-sf-app [tabindex]:focus-visible {
+    outline: 2px solid var(--upf-focus);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+#upfluent-sf-app [tabindex="-1"]:focus:not(:focus-visible) { outline: none; }
+
+/* ─── Header ─── */
+
+.upfluent-sf-app .upf-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 4px 16px;
+    margin: 0 0 20px;
+}
+.upfluent-sf-app .upf-header-main { min-width: 0; }
+.upfluent-sf-app .upf-title { margin: 0 0 4px; padding: 0; font-size: 24px; font-weight: 600; line-height: 1.25; color: var(--upf-text); }
+.upfluent-sf-app .upf-subtitle { color: var(--upf-text-soft); }
+.upfluent-sf-app .upf-version { color: var(--upf-text-soft); font-size: 12.5px; }
+
+/* ─── Cards ─── */
+
+.upfluent-sf-app .upf-card {
+    background: var(--upf-surface);
+    border: 1px solid var(--upf-border);
+    border-radius: var(--upf-radius);
+    box-shadow: var(--upf-shadow);
+    margin: 0 0 16px;
+    min-width: 0;
+}
+.upfluent-sf-app .upf-card--alert { border-color: var(--upf-err-border); }
+.upfluent-sf-app .upf-card--setup { border-color: var(--upf-accent); }
+
+.upfluent-sf-app .upf-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--upf-border);
+}
+.upfluent-sf-app .upf-card-title { margin: 0; padding: 0; font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--upf-text); }
+.upfluent-sf-app .upf-card-body { padding: 16px 20px; display: grid; gap: 14px; min-width: 0; }
+.upfluent-sf-app .upf-card-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border-top: 1px solid var(--upf-border);
+    background: var(--upf-head-bg);
+    border-radius: 0 0 var(--upf-radius) var(--upf-radius);
+}
+
+.upfluent-sf-app .upf-subhead { margin: 0 0 6px; padding: 0; font-size: 13px; font-weight: 600; color: var(--upf-text); }
+.upfluent-sf-app .upf-help { color: var(--upf-text-soft); font-size: 13px; line-height: 1.5; }
+.upfluent-sf-app .upf-help--strong { color: var(--upf-text); font-weight: 500; }
+.upfluent-sf-app .upf-meta { color: var(--upf-text-soft); font-size: 13px; }
+.upfluent-sf-app .upf-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.upfluent-sf-app .upf-loading { font-style: italic; }
+
+.upfluent-sf-app time { white-space: nowrap; }
+
+/* "Connect ShipFusion first." */
+.upfluent-sf-app .upf-locked {
+    padding: 10px 12px;
+    border-radius: var(--upf-radius-sm);
+    background: var(--upf-warn-bg);
+    color: var(--upf-warn-text);
+    font-weight: 500;
+}
+.upfluent-sf-app .upf-locked a { color: inherit; margin-left: 4px; }
+
+.upfluent-sf-app .upf-notice {
+    padding: 10px 12px;
+    border-radius: var(--upf-radius-sm);
+    font-weight: 500;
+}
+.upfluent-sf-app .upf-notice.is-error { background: var(--upf-err-bg); color: var(--upf-err-text); }
+
+/* ─── Badges and dots ─── */
+
+.upfluent-sf-app .upf-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.6;
+    white-space: nowrap;
+    vertical-align: middle;
+    background: var(--upf-mute-bg);
+    color: var(--upf-mute-text);
+}
+.upfluent-sf-app .upf-badge.is-success { background: var(--upf-ok-bg); color: var(--upf-ok-text); }
+.upfluent-sf-app .upf-badge.is-warning { background: var(--upf-warn-bg); color: var(--upf-warn-text); }
+.upfluent-sf-app .upf-badge.is-error   { background: var(--upf-err-bg); color: var(--upf-err-text); }
+.upfluent-sf-app .upf-badge.is-info    { background: var(--upf-info-bg); color: var(--upf-info-text); }
+.upfluent-sf-app .upf-badge.is-neutral { background: var(--upf-mute-bg); color: var(--upf-mute-text); }
+.upfluent-sf-app .upf-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex: none; }
+
+/* ─── Result lines (persistent aria-live nodes) ─── */
+
+.upfluent-sf-app .upf-result { font-size: 13px; font-weight: 500; color: var(--upf-text); overflow-wrap: anywhere; }
+.upfluent-sf-app .upf-result:empty { margin: 0; min-height: 0; }
+.upfluent-sf-app .upf-result.is-success { color: var(--upf-ok-line); }
+.upfluent-sf-app .upf-result.is-error   { color: var(--upf-err-line); }
+.upfluent-sf-app > .upf-result:not(:empty) { margin: 0 0 16px; padding: 10px 12px; border-radius: var(--upf-radius-sm); background: var(--upf-err-bg); color: var(--upf-err-text); }
+.upfluent-sf-app .upf-card-foot .upf-result { flex: 1 1 100%; }
+.upfluent-sf-app .upf-dirty { color: var(--upf-warn-text); font-size: 13px; font-weight: 500; }
+
+/* ─── Setup steps ─── */
+
+.upfluent-sf-app .upf-steps { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.upfluent-sf-app .upf-step { display: flex; gap: 12px; align-items: flex-start; margin: 0; }
+.upfluent-sf-app .upf-step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--upf-accent-soft);
+    color: var(--upf-text);
+    font-size: 12px;
+    font-weight: 600;
+}
+.upfluent-sf-app .upf-step.is-done .upf-step-num { background: var(--upf-ok-bg); color: var(--upf-ok-text); }
+.upfluent-sf-app .upf-step-text { min-width: 0; }
+.upfluent-sf-app .upf-step-text strong { font-weight: 600; margin-right: 6px; }
+.upfluent-sf-app .upf-step-text p { margin-top: 2px; color: var(--upf-text-soft); font-size: 13px; }
+
+/* ─── Status ─── */
+
+.upfluent-sf-app .upf-status-block { display: grid; gap: 6px; }
+.upfluent-sf-app .upf-status-line { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+
+.upfluent-sf-app .upf-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin: 0;
+}
+.upfluent-sf-app .upf-stat {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    padding: 12px 14px;
+    border: 1px solid var(--upf-border);
+    border-radius: var(--upf-radius-sm);
+    background: var(--upf-head-bg);
+    min-width: 0;
+}
+.upfluent-sf-app .upf-stat-label { color: var(--upf-text-soft); font-size: 12.5px; line-height: 1.35; }
+.upfluent-sf-app .upf-stat-num { margin: 0 0 2px; font-size: 22px; font-weight: 600; line-height: 1.2; color: var(--upf-text); }
+.upfluent-sf-app .upf-stat.is-alert { border-color: var(--upf-err-border); background: var(--upf-err-bg); }
+.upfluent-sf-app .upf-stat.is-alert .upf-stat-num,
+.upfluent-sf-app .upf-stat.is-alert .upf-stat-num a,
+.upfluent-sf-app .upf-stat.is-alert .upf-stat-label { color: var(--upf-err-text); }
+
+.upfluent-sf-app .upf-runs { display: grid; gap: 0; margin: 0; border-top: 1px solid var(--upf-border); }
+.upfluent-sf-app .upf-run-row {
+    display: grid;
+    grid-template-columns: minmax(140px, 220px) 1fr;
+    gap: 4px 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--upf-border);
+}
+.upfluent-sf-app .upf-run-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.upfluent-sf-app .upf-run-row dt { font-weight: 500; color: var(--upf-text); }
+.upfluent-sf-app .upf-run-row dd { margin: 0; display: flex; flex-wrap: wrap; gap: 2px 10px; min-width: 0; }
+.upfluent-sf-app .upf-run-msg { color: var(--upf-text); font-size: 13px; overflow-wrap: anywhere; }
+.upfluent-sf-app .upf-run-msg.is-error { color: var(--upf-err-line); font-weight: 500; }
+
+/* ─── Needs attention ─── */
+
+.upfluent-sf-app .upf-attn { margin: 0; padding: 0; list-style: none; border: 1px solid var(--upf-border); border-radius: var(--upf-radius-sm); }
+.upfluent-sf-app .upf-attn-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px 16px;
+    margin: 0;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--upf-border);
+}
+.upfluent-sf-app .upf-attn-item:last-child { border-bottom: 0; }
+.upfluent-sf-app .upf-attn-main { flex: 1 1 260px; min-width: 0; display: grid; gap: 2px; }
+.upfluent-sf-app .upf-attn-order { font-weight: 600; }
+.upfluent-sf-app .upf-attn-problem { overflow-wrap: anywhere; }
+.upfluent-sf-app .upf-attn-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.upfluent-sf-app .upf-row-note { font-size: 13px; font-weight: 500; }
+.upfluent-sf-app .upf-row-note.is-success { color: var(--upf-ok-line); }
+.upfluent-sf-app .upf-row-note.is-error   { color: var(--upf-err-line); }
+
+/* ─── Run now tiles ─── */
+
+.upfluent-sf-app .upf-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}
+.upfluent-sf-app .upf-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px 16px;
+    border: 1px solid var(--upf-border);
+    border-radius: var(--upf-radius-sm);
+    background: var(--upf-head-bg);
+    min-width: 0;
+}
+.upfluent-sf-app .upf-tile-title { margin: 0; padding: 0; font-size: 14px; font-weight: 600; color: var(--upf-text); }
+.upfluent-sf-app .upf-tile-action { margin-top: auto; }
+.upfluent-sf-app .upf-last { font-size: 13px; display: flex; flex-wrap: wrap; gap: 2px 8px; }
+
+/* ─── Forms ─── */
+
+.upfluent-sf-app .upf-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 24px; }
+.upfluent-sf-app .upf-field { min-width: 0; display: grid; gap: 6px; align-content: start; }
+.upfluent-sf-app .upf-field--wide { grid-column: 1 / -1; }
+.upfluent-sf-app .upf-label { display: block; font-size: 13px; font-weight: 500; color: var(--upf-text); }
+.upfluent-sf-app .upf-saved { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 13px; color: var(--upf-text); }
+.upfluent-sf-app .upf-sub { display: grid; gap: 6px; margin: 4px 0 0 54px; max-width: 420px; }
+
+#upfluent-sf-app input[type="text"],
+#upfluent-sf-app input[type="password"],
+#upfluent-sf-app input[type="email"],
+#upfluent-sf-app input[type="tel"],
+#upfluent-sf-app select {
+    width: 100%;
+    max-width: 100%;
+    min-height: 40px;
+    margin: 0;
+    padding: 8px 12px;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--upf-text);
+    background-color: var(--upf-input-bg);
+    border: 1px solid var(--upf-input-border);
+    border-radius: var(--upf-radius-sm);
+    box-shadow: none;
+}
+#upfluent-sf-app select {
+    padding-right: 34px;
+    background-image: var(--upf-select-arrow);
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 20px;
+    -webkit-appearance: none;
+    appearance: none;
+}
+#upfluent-sf-app .upf-input--short { max-width: 260px; }
+#upfluent-sf-app .upf-input--code { font-family: Menlo, Consolas, monospace; font-size: 13px; }
+#upfluent-sf-app input[readonly] { background-color: var(--upf-head-bg); }
+#upfluent-sf-app input:focus,
+#upfluent-sf-app select:focus { border-color: var(--upf-focus); box-shadow: none; }
+#upfluent-sf-app select:disabled { opacity: .6; cursor: not-allowed; }
+#upfluent-sf-app input::placeholder { color: var(--upf-text-soft); opacity: .85; }
+
+.upfluent-sf-app .upf-copy-row { display: flex; gap: 8px; align-items: stretch; min-width: 0; }
+.upfluent-sf-app .upf-copy-row input { flex: 1 1 auto; min-width: 0; }
+.upfluent-sf-app .upf-copy-row .button { flex: none; }
+
+/* Switch: a real checkbox with role="switch". Off state has a 4.8:1 outline. */
+.upfluent-sf-app .upf-field--switch { gap: 4px; }
+.upfluent-sf-app .upf-field--switch > .upf-help { margin-left: 54px; }
+.upfluent-sf-app .upf-switch-row { display: flex; align-items: flex-start; gap: 12px; }
+.upfluent-sf-app .upf-switch-label { font-weight: 500; color: var(--upf-text); cursor: pointer; padding-top: 1px; }
+
+#upfluent-sf-app input.upf-switch {
+    -webkit-appearance: none;
+    appearance: none;
+    position: relative;
+    flex: none;
+    width: 42px;
+    height: 24px;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border: 1.5px solid var(--upf-switch-off);
+    border-radius: 999px;
+    background: var(--upf-surface);
+    box-shadow: none;
+    cursor: pointer;
+    transition: background-color .15s, border-color .15s;
+}
+#upfluent-sf-app input.upf-switch::before {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 15px;
+    height: 15px;
+    margin: 0;
+    border-radius: 50%;
+    background: var(--upf-switch-off);
+    transition: transform .15s, background-color .15s;
+}
+#upfluent-sf-app input.upf-switch:checked { background: var(--upf-btn); border-color: var(--upf-btn); }
+#upfluent-sf-app input.upf-switch:checked::before { transform: translateX(18px); background: #ffffff; }
+#upfluent-sf-app input.upf-switch[aria-disabled="true"] { opacity: .5; cursor: not-allowed; }
+.upfluent-sf-app .is-locked .upf-switch-label { color: var(--upf-text-soft); cursor: not-allowed; }
+
+/* ─── Buttons: WordPress .button restyled to the house look ─── */
+
+#upfluent-sf-app .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 36px;
+    margin: 0;
+    padding: 7px 14px;
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--upf-text);
+    background: var(--upf-surface);
+    border: 1px solid var(--upf-input-border);
+    border-radius: var(--upf-radius-sm);
+    box-shadow: none;
+    text-decoration: none;
+    text-align: center;
+    white-space: normal;
+    cursor: pointer;
+    transition: background-color .15s, border-color .15s, color .15s;
+}
+#upfluent-sf-app .button:hover { background: var(--upf-surface-hover); color: var(--upf-text); }
+#upfluent-sf-app .button-primary { background: var(--upf-btn); border-color: var(--upf-btn); color: var(--upf-text-inverse); }
+#upfluent-sf-app .button-primary:hover { background: var(--upf-btn-hover); border-color: var(--upf-btn-hover); color: var(--upf-text-inverse); }
+#upfluent-sf-app .button-small { min-height: 30px; padding: 4px 10px; font-size: 12.5px; }
+#upfluent-sf-app .button[aria-disabled="true"] { opacity: .55; cursor: not-allowed; }
+#upfluent-sf-app .button[aria-busy="true"] { cursor: progress; }
+
+/* ─── Webhook recent updates ─── */
+
+.upfluent-sf-app .upf-multi { position: relative; }
+.upfluent-sf-app .upf-multi-summary { display: flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 34px 8px 12px; font-size: 14px; line-height: 1.4; color: var(--upf-text); cursor: pointer; list-style: none; background-color: var(--upf-input-bg); background-image: var(--upf-select-arrow); background-repeat: no-repeat; background-position: right 8px center; background-size: 20px; border: 1px solid var(--upf-input-border); border-radius: var(--upf-radius-sm); }
+.upfluent-sf-app .upf-multi-summary::-webkit-details-marker { display: none; }
+.upfluent-sf-app .upf-multi-list { margin: 4px 0 0; padding: 6px; border: 1px solid var(--upf-border); border-radius: var(--upf-radius-sm); background: var(--upf-surface); display: grid; gap: 2px; }
+.upfluent-sf-app .upf-multi-option { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; font-size: 13px; cursor: pointer; }
+.upfluent-sf-app .upf-multi-option:hover { background: var(--upf-surface-hover); }
+.upfluent-sf-app .upf-setup { margin: 0 0 10px 20px; padding: 0; font-size: 13px; }
+.upfluent-sf-app .upf-setup li { margin: 0 0 4px; }
+.upfluent-sf-app .upf-events { margin: 0 0 10px; padding: 0; list-style: none; display: grid; gap: 8px; }
+.upfluent-sf-app .upf-events li { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin: 0; font-size: 13px; }
+.upfluent-sf-app .upf-events code { font-family: Menlo, Consolas, monospace; font-size: 12px; padding: 2px 6px; border-radius: 4px; background: var(--upf-code-bg); color: var(--upf-text); }
+.upfluent-sf-app .upf-event-what { flex-basis: 100%; color: var(--upf-text-soft); }
+.upfluent-sf-app .upf-recent { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.upfluent-sf-app .upf-recent li { display: flex; flex-wrap: wrap; gap: 2px 10px; margin: 0; font-size: 13px; }
+.upfluent-sf-app .upf-recent time { color: var(--upf-text-soft); min-width: 110px; }
+
+/* ─── Troubleshooting ─── */
+
+.upfluent-sf-app .upf-details > summary {
+    cursor: pointer;
+    list-style: none;
+    border-bottom: 0;
+    border-radius: var(--upf-radius);
+}
+.upfluent-sf-app .upf-details > summary::-webkit-details-marker { display: none; }
+.upfluent-sf-app .upf-details > summary::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--upf-text-soft);
+    border-bottom: 2px solid var(--upf-text-soft);
+    transform: rotate(45deg);
+    transition: transform .15s;
+    flex: none;
+}
+.upfluent-sf-app .upf-details[open] > summary { border-bottom: 1px solid var(--upf-border); border-radius: var(--upf-radius) var(--upf-radius) 0 0; }
+.upfluent-sf-app .upf-details[open] > summary::after { transform: rotate(-135deg); }
+
+.upfluent-sf-app .upf-log-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.upfluent-sf-app .upf-log-head .upf-subhead { margin: 0; }
+.upfluent-sf-app .upf-log {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-height: 420px;
+    overflow: auto;
+    border: 1px solid var(--upf-border);
+    border-radius: var(--upf-radius-sm);
+}
+.upfluent-sf-app .upf-log-entry {
+    display: grid;
+    grid-template-columns: minmax(170px, auto) 1fr;
+    gap: 4px 12px;
+    margin: 0;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--upf-border);
+    font-size: 13px;
+}
+.upfluent-sf-app .upf-log-entry:last-child { border-bottom: 0; }
+.upfluent-sf-app .upf-log-meta { display: flex; align-items: center; gap: 8px; color: var(--upf-text-soft); }
+.upfluent-sf-app .upf-log-msg { min-width: 0; overflow-wrap: anywhere; }
+
+/* ─── Small screens (WordPress collapses its menu at 782px) ─── */
+
+@media (max-width: 782px) {
+    .upfluent-sf-app { margin: 12px 0 32px; }
+    .upfluent-sf-app .upf-title { font-size: 21px; }
+    .upfluent-sf-app .upf-card-head,
+    .upfluent-sf-app .upf-card-body,
+    .upfluent-sf-app .upf-card-foot { padding-left: 16px; padding-right: 16px; }
+    .upfluent-sf-app .upf-form-grid { grid-template-columns: minmax(0, 1fr); }
+    .upfluent-sf-app .upf-run-row { grid-template-columns: minmax(0, 1fr); }
+    .upfluent-sf-app .upf-log-entry { grid-template-columns: minmax(0, 1fr); }
+    #upfluent-sf-app .button { min-height: 40px; }
+}
+
+@media (max-width: 480px) {
+    .upfluent-sf-app .upf-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .upfluent-sf-app .upf-sub,
+    .upfluent-sf-app .upf-field--switch > .upf-help { margin-left: 0; }
+    .upfluent-sf-app .upf-copy-row { flex-direction: column; }
+    .upfluent-sf-app .upf-copy-row .button { align-self: flex-start; }
+    .upfluent-sf-app .upf-card-foot .button,
+    .upfluent-sf-app .upf-attn-actions .button { flex: 1 1 auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .upfluent-sf-app *,
+    .upfluent-sf-app *::before,
+    .upfluent-sf-app *::after { transition: none !important; }
+}
